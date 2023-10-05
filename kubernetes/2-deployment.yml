@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample
+  namespace: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample
+  template:
+    metadata:
+      labels:
+        app: sample
+    spec:
+      containers:
+      - name: sample
+        image: kind-registry:5000/sample.flask:latest
+        imagePullPolicy: Always
+        env:
+          - name: TZ
+            value: "US/Pacific"
+        ports:
+        - containerPort: 80
+        

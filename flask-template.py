@@ -17,11 +17,6 @@ def test():
 def help():
   return "there is no help for you here"
 
-# @app.route('/query',methods=['POST'])
-# def query():
-#     language = request.args.get('language')
-#     return '''<h1> The language value is: {} </h1>'''.format(language)
-
 @app.route('/queryform',methods=['POST','GET'])
 def queryform():
     if request.method == 'GET':
@@ -35,4 +30,4 @@ def queryform():
         return '''<h1> The language value is: {} </h1>'''.format(language)
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0',port=8000)
+  app.run(host='0.0.0.0',port=80)

@@ -1,16 +1,18 @@
-all: build run
+all: build kubernetes-run
 
 build:
-	docker build . -t sample.flask
+	docker build . -t registry.localhost:5001/sample.flask:latest
+	docker push registry.localhost:5001/sample.flask:latest
 
-run: db
-	docker run --rm --name sample --publish 8000:8000 -d sample.flask 
-
-clean:
-	docker stop sample
-	docker stop mariadb
-	docker rm sample
+clean: kubernetes-delete
 	docker image rm -f sample.flask
+	docker image rm -f registry.localhost:5001/sample.flask:latest
 
 db:
 	docker run  --rm --detach --name mariadb  -p 33306:3306 -e MARIADB_ROOT_PASSWORD='testpass'-d mariadb:latest
+
+kubernetes-run:
+	cd kubernetes && for i in $$(ls -1|sort); do kubectl apply -f $$i;done
+
+kubernetes-delete:
+	cd kubernetes && for i in $$(ls -1|sort -r); do kubectl delete -f $$i;done
