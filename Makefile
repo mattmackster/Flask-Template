@@ -5,11 +5,11 @@ build:
 	docker push registry.localhost:5001/sample.flask:latest
 
 clean: kubernetes-delete
-	docker image rm -f sample.flask
-	docker image rm -f registry.localhost:5001/sample.flask:latest
+	docker image rm sample.flask
+	docker image rm registry.localhost:5001/sample.flask:latest
 
-db:
-	docker run  --rm --detach --name mariadb  -p 33306:3306 -e MARIADB_ROOT_PASSWORD='testpass'-d mariadb:latest
+#db:
+#	docker run  --rm --detach --name mariadb  -p 33306:3306 -e MARIADB_ROOT_PASSWORD='testpass'-d mariadb:latest
 
 kubernetes-run:
 	cd kubernetes && for i in $$(ls -1|sort); do kubectl apply -f $$i;done
